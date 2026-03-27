@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      padding: 16px;
+      background: var(--figma-color-bg);
+      color: var(--figma-color-text);
+      font-size: 11px;
+    }
+
+    .header {
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--figma-color-border);
+    }
+
+    h1 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 11px;
+      color: var(--figma-color-text-secondary);
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    button {
+      padding: 8px 12px;
+      font-size: 11px;
+      font-weight: 500;
+      border: 1px solid var(--figma-color-border);
+      border-radius: 6px;
+      background: var(--figma-color-bg);
+      color: var(--figma-color-text);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      background: var(--figma-color-bg-hover);
+    }
+
+    button.primary {
+      background: var(--figma-color-bg-brand);
+      color: white;
+      border-color: var(--figma-color-bg-brand);
+    }
+
+    button.primary:hover {
+      background: var(--figma-color-bg-brand-hover);
+    }
+
+    button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .message {
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      font-size: 11px;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message.error {
+      background: var(--figma-color-bg-danger);
+      color: var(--figma-color-text-danger);
+    }
+
+    .message.success {
+      background: var(--figma-color-bg-success);
+      color: var(--figma-color-text-success);
+    }
+
+    .fields-preview {
+      margin-bottom: 16px;
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid var(--figma-color-border);
+      border-radius: 6px;
+      background: var(--figma-color-bg);
+    }
+
+    .field-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr 120px;
+      gap: 8px;
+      padding: 8px;
+      border-bottom: 1px solid var(--figma-color-border);
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .field-item:last-child {
+      border-bottom: none;
+    }
+
+    .field-item .field-name {
+      font-family: 'Monaco', monospace;
+      font-size: 10px;
+      color: var(--figma-color-text-secondary);
+    }
+
+    .field-item .field-label {
+      font-weight: 500;
+    }
+
+    .field-item select {
+      padding: 4px 8px;
+      border: 1px solid var(--figma-color-border);
+      border-radius: 4px;
+      background: var(--figma-color-bg);
+      color: var(--figma-color-text);
+      font-size: 11px;
+      width: 100%;
+    }
+
+    .code-container {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 250px;
+      padding: 12px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 10px;
+      line-height: 1.5;
+      border: 1px solid var(--figma-color-border);
+      border-radius: 6px;
+      background: var(--figma-color-bg);
+      color: var(--figma-color-text);
+      resize: vertical;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--figma-color-border-selected);
+    }
+
+    .stats {
+      font-size: 10px;
+      color: var(--figma-color-text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--figma-color-text-secondary);
+    }
+
+    .empty-state svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 12px;
+      opacity: 0.3;
+      stroke: currentColor;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid var(--figma-color-border);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Custom Field Codegen</h1>
+    <p class="subtitle">Generate ACF field code from Figma layers</p>
+  </div>
+
+  <div class="controls">
+    <button class="primary" onclick="generateCode()">Generate Code</button>
+    <button id="copyBtn" onclick="copyCode()" disabled>Copy</button>
+    <button onclick="regenerate()" id="regenBtn" disabled>Regenerate</button>
+  </div>
+
+  <div id="message"></div>
+
+  <div id="fieldsPreview" style="display: none;">
+    <h3 style="font-size: 11px; font-weight: 600; margin-bottom: 8px;">
+      Fields Preview <span id="fieldCount"></span>
+    </h3>
+    <div class="fields-preview" id="fieldsList"></div>
+  </div>
+
+  <div id="codeContainer" style="display: none;">
+    <div class="code-container">
+      <textarea id="output" readonly></textarea>
+    </div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <div class="empty-state" id="emptyState">
+    <svg viewBox="0 0 24 24" fill="none">
+      <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <p>Select layers and click "Generate Code"</p>
+  </div>
+
+  <div class="footer">
+    <div style="font-size: 10px; color: var(--figma-color-text-secondary);">
+      v1.0.0
+    </div>
+    <button onclick="closePlugin()">Close</button>
+  </div>
+
+  <script>
+    let currentFields = [];
+
+    const fieldTypes = [
+      'text',
+      'textarea',
+      'number',
+      'email',
+      'url',
+      'image',
+      'file',
+      'select',
+      'true_false',
+      'date_picker'
+    ];
+
+    function generateCode() {
+      parent.postMessage({ pluginMessage: { type: 'generate-code' } }, '*');
+    }
+
+    function copyCode() {
+      const code = document.getElementById('output').value;
+      navigator.clipboard.writeText(code).then(() => {
+        parent.postMessage({ 
+          pluginMessage: { type: 'notify', message: 'Code copied to clipboard!' } 
+        }, '*');
+        showMessage('Code copied to clipboard!', 'success');
+      }).catch(err => {
+        showMessage('Failed to copy code', 'error');
+      });
+    }
+
+    function regenerate() {
+      generatePHPCode(currentFields);
+    }
+
+    function closePlugin() {
+      parent.postMessage({ pluginMessage: { type: 'close' } }, '*');
+    }
+
+    function showMessage(text, type = 'success') {
+      const messageDiv = document.getElementById('message');
+      messageDiv.innerHTML = `<div class="message ${type}">${text}</div>`;
+      setTimeout(() => {
+        messageDiv.innerHTML = '';
+      }, 3000);
+    }
+
+    function updateFieldType(index, newType) {
+      currentFields[index].type = newType;
+      generatePHPCode(currentFields);
+    }
+
+    function renderFieldsPreview(fields) {
+      const preview = document.getElementById('fieldsPreview');
+      const fieldsList = document.getElementById('fieldsList');
+      const fieldCount = document.getElementById('fieldCount');
+      
+      preview.style.display = 'block';
+      fieldCount.textContent = `(${fields.length})`;
+      
+      fieldsList.innerHTML = fields.map((field, index) => `
+        <div class="field-item">
+          <div class="field-label">${field.label}</div>
+          <div class="field-name">${field.name}</div>
+          <select onchange="updateFieldType(${index}, this.value)">
+            ${fieldTypes.map(type => `
+              <option value="${type}" ${field.type === type ? 'selected' : ''}>
+                ${type}
+              </option>
+            `).join('')}
+          </select>
+        </div>
+      `).join('');
+    }
+
+    function generatePHPCode(fields) {
+      const timestamp = new Date().toISOString().split('T')[0];
+      
+      const fieldsCode = fields.map(field => `        array(
+            'key' => '${field.key}',
+            'label' => '${field.label}',
+            'name' => '${field.name}',
+            'type' => '${field.type}',
+            'instructions' => '',
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+        )`).join(',\n');
+
+      const code = `<?php
+/**
+ * ACF Field Group: Custom Fields
+ * Generated by Custom Field Codegen for Figma
+ * Date: ${timestamp}
+ */
+
+acf_add_local_field_group(array(
+    'key' => 'group_custom_fields',
+    'title' => 'Custom Fields',
+    'fields' => array(
+${fieldsCode}
+    ),
+    'location' => array(
+        array(
+            array(
+                'param' => 'post_type',
+                'operator' => '==',
+                'value' => 'post',
+            ),
+        ),
+    ),
+    'menu_order' => 0,
+    'position' => 'normal',
+    'style' => 'default',
+    'label_placement' => 'top',
+    'instruction_placement' => 'label',
+    'hide_on_screen' => '',
+    'active' => true,
+    'description' => '',
+));`;
+
+      const output = document.getElementById('output');
+      const stats = document.getElementById('stats');
+      const codeContainer = document.getElementById('codeContainer');
+      const emptyState = document.getElementById('emptyState');
+      const copyBtn = document.getElementById('copyBtn');
+      const regenBtn = document.getElementById('regenBtn');
+
+      output.value = code;
+      codeContainer.style.display = 'block';
+      emptyState.style.display = 'none';
+      copyBtn.disabled = false;
+      regenBtn.disabled = false;
+
+      const lineCount = code.split('\n').length;
+      stats.textContent = `${fields.length} fields / ${lineCount} lines`;
+    }
+
+    window.onmessage = (event) => {
+      const msg = event.data.pluginMessage;
+
+      if (msg.type === 'fields-generated') {
+        currentFields = msg.fields;
+        renderFieldsPreview(msg.fields);
+        generatePHPCode(msg.fields);
+        showMessage(`✓ ${msg.fields.length} fields generated successfully`, 'success');
+      }
+
+      if (msg.type === 'error') {
+        showMessage(msg.message, 'error');
+      }
+    };
+  </script>
+</body>
+</html>

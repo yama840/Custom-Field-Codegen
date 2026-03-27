@@ -1,0 +1,17 @@
+{
+  "name": "custom-field-codegen",
+  "version": "1.0.0",
+  "description": "Generate ACF field code from Figma layers",
+  "scripts": {
+    "build": "tsc && cp ui.html dist/ui.html",
+    "watch": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "keywords": ["figma", "plugin", "acf", "wordpress", "code-generation"],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.99.0",
+    "typescript": "^5.0.0"
+  }
+}

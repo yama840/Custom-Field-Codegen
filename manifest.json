@@ -1,0 +1,11 @@
+{
+  "name": "Custom Field Codegen",
+  "id": "custom-field-codegen-v1",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/ui.html",
+  "editorType": ["figma"],
+  "networkAccess": {
+    "allowedDomains": ["none"]
+  }
+}
