@@ -11,10 +11,52 @@
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      padding: 16px;
       background: var(--figma-color-bg);
       color: var(--figma-color-text);
       font-size: 11px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--figma-color-border);
+      background: var(--figma-color-bg);
+    }
+
+    .tab {
+      padding: 12px 20px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--figma-color-text-secondary);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab:hover {
+      color: var(--figma-color-text);
+      background: var(--figma-color-bg-hover);
+    }
+
+    .tab.active {
+      color: var(--figma-color-text-brand);
+      border-bottom-color: var(--figma-color-bg-brand);
+    }
+
+    .tab-content {
+      display: none;
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+    }
+
+    .tab-content.active {
+      display: flex;
+      flex-direction: column;
     }
 
     .header {
@@ -32,6 +74,165 @@
     .subtitle {
       font-size: 11px;
       color: var(--figma-color-text-secondary);
+    }
+
+    .settings-section {
+      margin-bottom: 16px;
+      padding: 12px;
+      background: var(--figma-color-bg-secondary);
+      border: 1px solid var(--figma-color-border);
+      border-radius: 6px;
+    }
+
+    .settings-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .settings-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .settings-field {
+      flex: 1;
+    }
+
+    .settings-label {
+      display: block;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--figma-color-text-secondary);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 6px 8px;
+      font-size: 11px;
+      border: 1px solid var(--figma-color-border);
+      border-radius: 4px;
+      background: var(--figma-color-bg);
+      color: var(--figma-color-text);
+    }
+
+    input[type="text"]:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--figma-color-border-selected);
+    }
+
+    .guide-section {
+      margin-bottom: 20px;
+    }
+
+    .guide-section h3 {
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .guide-step {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      align-items: flex-start;
+    }
+
+    .guide-step-number {
+      background: var(--figma-color-bg-brand);
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .guide-step-content {
+      flex: 1;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .guide-step-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .guide-step-desc {
+      color: var(--figma-color-text-secondary);
+    }
+
+    .guide-examples {
+      background: var(--figma-color-bg-secondary);
+      border: 1px solid var(--figma-color-border);
+      border-radius: 6px;
+      padding: 12px;
+      margin-top: 12px;
+    }
+
+    .guide-examples-title {
+      font-weight: 600;
+      font-size: 10px;
+      margin-bottom: 8px;
+      color: var(--figma-color-text-secondary);
+    }
+
+    .guide-example-item {
+      font-family: 'Monaco', monospace;
+      font-size: 10px;
+      margin-bottom: 6px;
+      padding: 4px 0;
+    }
+
+    .guide-example-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .prefix {
+      color: #0066cc;
+      font-weight: 600;
+    }
+
+    .arrow {
+      color: var(--figma-color-text-tertiary);
+      margin: 0 6px;
+    }
+
+    .type {
+      color: #00aa00;
+      font-weight: 600;
+    }
+
+    .prefix-table {
+      width: 100%;
+      font-size: 10px;
+      margin-top: 8px;
+    }
+
+    .prefix-table th {
+      text-align: left;
+      padding: 6px 8px;
+      background: var(--figma-color-bg-secondary);
+      border-bottom: 1px solid var(--figma-color-border);
+      font-weight: 600;
+    }
+
+    .prefix-table td {
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--figma-color-border);
+      font-family: 'Monaco', monospace;
+    }
+
+    .prefix-table tr:last-child td {
+      border-bottom: none;
     }
 
     .controls {
@@ -91,13 +292,13 @@
     }
 
     .message.error {
-      background: var(--figma-color-bg-danger);
-      color: var(--figma-color-text-danger);
+      background: #fee;
+      color: #c00;
     }
 
     .message.success {
-      background: var(--figma-color-bg-success);
-      color: var(--figma-color-text-success);
+      background: #efe;
+      color: #060;
     }
 
     .fields-preview {
@@ -111,16 +312,37 @@
 
     .field-item {
       display: grid;
-      grid-template-columns: 1fr 1fr 120px;
+      grid-template-columns: 24px 1fr 1fr 120px;
       gap: 8px;
       padding: 8px;
       border-bottom: 1px solid var(--figma-color-border);
       align-items: center;
       font-size: 11px;
+      cursor: move;
+      transition: background 0.2s;
+    }
+
+    .field-item:hover {
+      background: var(--figma-color-bg-hover);
+    }
+
+    .field-item.dragging {
+      opacity: 0.5;
     }
 
     .field-item:last-child {
       border-bottom: none;
+    }
+
+    .drag-handle {
+      cursor: grab;
+      color: var(--figma-color-text-tertiary);
+      font-size: 14px;
+      user-select: none;
+    }
+
+    .drag-handle:active {
+      cursor: grabbing;
     }
 
     .field-item .field-name {
@@ -146,11 +368,15 @@
     .code-container {
       position: relative;
       margin-bottom: 12px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
 
     textarea {
       width: 100%;
-      height: 250px;
+      flex: 1;
+      min-height: 300px;
       padding: 12px;
       font-family: 'Monaco', 'Menlo', monospace;
       font-size: 10px;
@@ -175,7 +401,7 @@
 
     .empty-state {
       text-align: center;
-      padding: 40px 20px;
+      padding: 60px 20px;
       color: var(--figma-color-text-secondary);
     }
 
@@ -187,59 +413,236 @@
       stroke: currentColor;
     }
 
-    .footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 12px;
-      border-top: 1px solid var(--figma-color-border);
+    .version {
+      font-size: 10px;
+      color: var(--figma-color-text-tertiary);
+      text-align: center;
+      padding: 12px 0;
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>Custom Field Codegen</h1>
-    <p class="subtitle">Generate ACF field code from Figma layers</p>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('generator')">Generate</button>
+    <button class="tab" onclick="switchTab('guide')">Guide</button>
   </div>
 
-  <div class="controls">
-    <button class="primary" onclick="generateCode()">Generate Code</button>
-    <button id="copyBtn" onclick="copyCode()" disabled>Copy</button>
-    <button onclick="regenerate()" id="regenBtn" disabled>Regenerate</button>
-  </div>
-
-  <div id="message"></div>
-
-  <div id="fieldsPreview" style="display: none;">
-    <h3 style="font-size: 11px; font-weight: 600; margin-bottom: 8px;">
-      Fields Preview <span id="fieldCount"></span>
-    </h3>
-    <div class="fields-preview" id="fieldsList"></div>
-  </div>
-
-  <div id="codeContainer" style="display: none;">
-    <div class="code-container">
-      <textarea id="output" readonly></textarea>
+  <!-- Generator Tab -->
+  <div class="tab-content active" id="generatorTab">
+    <div class="header">
+      <h1>Custom Field Codegen</h1>
+      <p class="subtitle">Generate ACF field code from Figma layers</p>
     </div>
-    <div class="stats" id="stats"></div>
-  </div>
 
-  <div class="empty-state" id="emptyState">
-    <svg viewBox="0 0 24 24" fill="none">
-      <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <p>Select layers and click "Generate Code"</p>
-  </div>
-
-  <div class="footer">
-    <div style="font-size: 10px; color: var(--figma-color-text-secondary);">
-      v1.0.0
+    <div class="settings-section">
+      <div class="settings-row">
+        <div class="settings-field">
+          <label class="settings-label">Field Group Name</label>
+          <input type="text" id="groupTitle" value="Custom Fields" placeholder="Enter group name">
+        </div>
+      </div>
+      <div class="settings-row">
+        <div class="settings-field">
+          <label class="settings-label">Show on</label>
+          <select id="locationType">
+            <option value="post">Post</option>
+            <option value="page">Page</option>
+            <option value="all">All Post Types</option>
+          </select>
+        </div>
+      </div>
     </div>
-    <button onclick="closePlugin()">Close</button>
+
+    <div class="controls">
+      <button class="primary" onclick="generateCode()">Generate Code</button>
+      <button id="copyBtn" onclick="copyCode()" disabled>Copy</button>
+    </div>
+
+    <div id="message"></div>
+
+    <div id="fieldsPreview" style="display: none;">
+      <h3 style="font-size: 11px; font-weight: 600; margin-bottom: 8px;">
+        Fields Preview <span id="fieldCount"></span>
+        <span style="font-weight: 400; color: var(--figma-color-text-secondary); margin-left: 8px;">
+          (Drag to reorder)
+        </span>
+      </h3>
+      <div class="fields-preview" id="fieldsList"></div>
+    </div>
+
+    <div id="codeContainer" style="display: none;">
+      <div class="code-container">
+        <textarea id="output" readonly></textarea>
+      </div>
+      <div class="stats" id="stats"></div>
+    </div>
+
+    <div class="empty-state" id="emptyState">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <p>Select layers and click "Generate Code"</p>
+    </div>
+
+    <div class="version">v1.0.0</div>
+  </div>
+
+  <!-- Guide Tab -->
+  <div class="tab-content" id="guideTab">
+    <div class="guide-section">
+      <h3>📘 How to Use</h3>
+      
+      <div class="guide-step">
+        <div class="guide-step-number">1</div>
+        <div class="guide-step-content">
+          <div class="guide-step-title">Create Layers in Figma</div>
+          <div class="guide-step-desc">
+            Create text layers or frames with names that describe your ACF fields.
+            Add prefixes to automatically set field types.
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="guide-step-number">2</div>
+        <div class="guide-step-content">
+          <div class="guide-step-title">Select Layers</div>
+          <div class="guide-step-desc">
+            Click layers while holding <strong>Shift</strong> to select multiple layers.
+            Or click and drag to select a group of layers.
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="guide-step-number">3</div>
+        <div class="guide-step-content">
+          <div class="guide-step-title">Configure Settings</div>
+          <div class="guide-step-desc">
+            Set the field group name and choose where it should appear (Post, Page, or All).
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="guide-step-number">4</div>
+        <div class="guide-step-content">
+          <div class="guide-step-title">Generate Code</div>
+          <div class="guide-step-desc">
+            Switch to the "Generate" tab and click "Generate Code" button.
+            Review and adjust field types if needed. Drag fields to reorder them.
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="guide-step-number">5</div>
+        <div class="guide-step-content">
+          <div class="guide-step-title">Copy & Use</div>
+          <div class="guide-step-desc">
+            Click "Copy" button and paste the code into your WordPress theme's
+            <code>functions.php</code> file.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-section">
+      <h3>🏷️ Prefix Examples</h3>
+      
+      <div class="guide-examples">
+        <div class="guide-example-item">
+          <span class="prefix">img_</span>hero <span class="arrow">→</span> <span class="type">image</span>
+        </div>
+        <div class="guide-example-item">
+          <span class="prefix">txt_</span>description <span class="arrow">→</span> <span class="type">textarea</span>
+        </div>
+        <div class="guide-example-item">
+          <span class="prefix">url_</span>website <span class="arrow">→</span> <span class="type">url</span>
+        </div>
+        <div class="guide-example-item">
+          <span class="prefix">select_</span>category <span class="arrow">→</span> <span class="type">select</span>
+        </div>
+        <div class="guide-example-item">
+          <span class="prefix">date_</span>published <span class="arrow">→</span> <span class="type">date_picker</span>
+        </div>
+        <div class="guide-example-item">
+          <span class="prefix">画像_</span>メイン <span class="arrow">→</span> <span class="type">image</span> (Japanese)
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-section">
+      <h3>📋 All Supported Prefixes</h3>
+      
+      <table class="prefix-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>English</th>
+            <th>Japanese</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>image</strong></td>
+            <td>img_, image_</td>
+            <td>画像_, 写真_</td>
+          </tr>
+          <tr>
+            <td><strong>textarea</strong></td>
+            <td>txt_, text_</td>
+            <td>本文_, テキスト_</td>
+          </tr>
+          <tr>
+            <td><strong>number</strong></td>
+            <td>num_, number_</td>
+            <td>数値_</td>
+          </tr>
+          <tr>
+            <td><strong>email</strong></td>
+            <td>email_, mail_</td>
+            <td>メール_</td>
+          </tr>
+          <tr>
+            <td><strong>url</strong></td>
+            <td>url_, link_</td>
+            <td>リンク_, URL_</td>
+          </tr>
+          <tr>
+            <td><strong>file</strong></td>
+            <td>file_</td>
+            <td>ファイル_</td>
+          </tr>
+          <tr>
+            <td><strong>select</strong></td>
+            <td>select_, dropdown_</td>
+            <td>選択_</td>
+          </tr>
+          <tr>
+            <td><strong>true_false</strong></td>
+            <td>toggle_, switch_, bool_</td>
+            <td>切替_</td>
+          </tr>
+          <tr>
+            <td><strong>date_picker</strong></td>
+            <td>date_</td>
+            <td>日付_</td>
+          </tr>
+          <tr>
+            <td><strong>text</strong></td>
+            <td colspan="2"><em>No prefix (default)</em></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="version">v1.0.0</div>
   </div>
 
   <script>
     let currentFields = [];
+    let draggedIndex = null;
 
     const fieldTypes = [
       'text',
@@ -254,28 +657,61 @@
       'date_picker'
     ];
 
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+
+      if (tabName === 'generator') {
+        document.querySelector('.tab:nth-child(1)').classList.add('active');
+        document.getElementById('generatorTab').classList.add('active');
+      } else if (tabName === 'guide') {
+        document.querySelector('.tab:nth-child(2)').classList.add('active');
+        document.getElementById('guideTab').classList.add('active');
+      }
+    }
+
     function generateCode() {
       parent.postMessage({ pluginMessage: { type: 'generate-code' } }, '*');
     }
 
     function copyCode() {
-      const code = document.getElementById('output').value;
-      navigator.clipboard.writeText(code).then(() => {
+      const output = document.getElementById('output');
+      const code = output.value;
+      
+      output.select();
+      output.setSelectionRange(0, 99999);
+      
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(() => {
+          parent.postMessage({ 
+            pluginMessage: { type: 'notify', message: 'Code copied to clipboard!' } 
+          }, '*');
+          showMessage('Code copied to clipboard!', 'success');
+        }).catch(err => {
+          fallbackCopy();
+        });
+      } else {
+        fallbackCopy();
+      }
+    }
+
+    function fallbackCopy() {
+      const output = document.getElementById('output');
+      output.select();
+      
+      try {
+        document.execCommand('copy');
         parent.postMessage({ 
-          pluginMessage: { type: 'notify', message: 'Code copied to clipboard!' } 
+          pluginMessage: { type: 'notify', message: 'Code copied!' } 
         }, '*');
-        showMessage('Code copied to clipboard!', 'success');
-      }).catch(err => {
-        showMessage('Failed to copy code', 'error');
-      });
-    }
-
-    function regenerate() {
-      generatePHPCode(currentFields);
-    }
-
-    function closePlugin() {
-      parent.postMessage({ pluginMessage: { type: 'close' } }, '*');
+        showMessage('Code copied!', 'success');
+      } catch (err) {
+        showMessage('Please manually select and copy', 'error');
+      }
     }
 
     function showMessage(text, type = 'success') {
@@ -291,6 +727,33 @@
       generatePHPCode(currentFields);
     }
 
+    function handleDragStart(e, index) {
+      draggedIndex = index;
+      e.target.classList.add('dragging');
+    }
+
+    function handleDragEnd(e) {
+      e.target.classList.remove('dragging');
+      draggedIndex = null;
+    }
+
+    function handleDragOver(e) {
+      e.preventDefault();
+    }
+
+    function handleDrop(e, dropIndex) {
+      e.preventDefault();
+      
+      if (draggedIndex === null || draggedIndex === dropIndex) return;
+
+      const draggedField = currentFields[draggedIndex];
+      currentFields.splice(draggedIndex, 1);
+      currentFields.splice(dropIndex, 0, draggedField);
+
+      renderFieldsPreview(currentFields);
+      generatePHPCode(currentFields);
+    }
+
     function renderFieldsPreview(fields) {
       const preview = document.getElementById('fieldsPreview');
       const fieldsList = document.getElementById('fieldsList');
@@ -299,27 +762,66 @@
       preview.style.display = 'block';
       fieldCount.textContent = `(${fields.length})`;
       
-      fieldsList.innerHTML = fields.map((field, index) => `
-        <div class="field-item">
-          <div class="field-label">${field.label}</div>
-          <div class="field-name">${field.name}</div>
-          <select onchange="updateFieldType(${index}, this.value)">
-            ${fieldTypes.map(type => `
-              <option value="${type}" ${field.type === type ? 'selected' : ''}>
-                ${type}
-              </option>
-            `).join('')}
-          </select>
-        </div>
-      `).join('');
+      const html = fields.map((field, index) => {
+        const options = fieldTypes.map(type => 
+          `<option value="${type}" ${field.type === type ? 'selected' : ''}>${type}</option>`
+        ).join('');
+        
+        return `
+          <div class="field-item" 
+               draggable="true" 
+               data-index="${index}"
+               ondragstart="handleDragStart(event, ${index})"
+               ondragend="handleDragEnd(event)"
+               ondragover="handleDragOver(event)"
+               ondrop="handleDrop(event, ${index})">
+            <div class="drag-handle">☰</div>
+            <div class="field-label">${escapeHtml(field.label)}</div>
+            <div class="field-name">${escapeHtml(field.name)}</div>
+            <select data-field-index="${index}" class="field-type-select">
+              ${options}
+            </select>
+          </div>
+        `;
+      }).join('');
+      
+      fieldsList.innerHTML = html;
+      
+      const selects = fieldsList.querySelectorAll('.field-type-select');
+      selects.forEach(select => {
+        select.addEventListener('change', function(e) {
+          const index = parseInt(this.getAttribute('data-field-index'));
+          const newType = this.value;
+          updateFieldType(index, newType);
+        });
+      });
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function toSnakeCase(str) {
+      return str
+        .replace(/\s+/g, '_')
+        .replace(/[^a-z0-9_-]/gi, '_')
+        .replace(/_+/g, '_')
+        .replace(/^_|_$/g, '')
+        .toLowerCase();
     }
 
     function generatePHPCode(fields) {
       const timestamp = new Date().toISOString().split('T')[0];
+      const groupTitle = document.getElementById('groupTitle').value || 'Custom Fields';
+      const locationType = document.getElementById('locationType').value;
+      const groupKey = 'group_' + toSnakeCase(groupTitle);
       
-      const fieldsCode = fields.map(field => `        array(
+      const fieldsCode = fields.map(field => {
+        let fieldCode = `        array(
             'key' => '${field.key}',
-            'label' => '${field.label}',
+            'label' => '${escapePhpString(field.label)}',
             'name' => '${field.name}',
             'type' => '${field.type}',
             'instructions' => '',
@@ -329,19 +831,88 @@
                 'width' => '',
                 'class' => '',
                 'id' => '',
+            ),`;
+
+        switch (field.type) {
+          case 'select':
+            fieldCode += `
+            'choices' => array(
+                'option1' => 'Option 1',
+                'option2' => 'Option 2',
+                'option3' => 'Option 3',
             ),
-        )`).join(',\n');
+            'default_value' => false,
+            'return_format' => 'value',
+            'multiple' => 0,
+            'allow_null' => 0,
+            'ui' => 0,
+            'ajax' => 0,
+            'placeholder' => '',`;
+            break;
+
+          case 'image':
+            fieldCode += `
+            'return_format' => 'array',
+            'library' => 'all',
+            'preview_size' => 'medium',`;
+            break;
+
+          case 'file':
+            fieldCode += `
+            'return_format' => 'array',
+            'library' => 'all',`;
+            break;
+
+          case 'true_false':
+            fieldCode += `
+            'default_value' => 0,
+            'ui' => 0,`;
+            break;
+
+          case 'date_picker':
+            fieldCode += `
+            'display_format' => 'd/m/Y',
+            'return_format' => 'd/m/Y',
+            'first_day' => 1,`;
+            break;
+
+          case 'textarea':
+            fieldCode += `
+            'rows' => 4,
+            'new_lines' => 'br',`;
+            break;
+
+          case 'number':
+            fieldCode += `
+            'min' => '',
+            'max' => '',
+            'step' => '',`;
+            break;
+        }
+
+        fieldCode += `
+        )`;
+
+        return fieldCode;
+      }).join(',\n');
+
+      let locationValue;
+      if (locationType === 'all') {
+        locationValue = 'all';
+      } else {
+        locationValue = locationType;
+      }
 
       const code = `<?php
 /**
- * ACF Field Group: Custom Fields
+ * ACF Field Group: ${groupTitle}
  * Generated by Custom Field Codegen for Figma
  * Date: ${timestamp}
  */
 
 acf_add_local_field_group(array(
-    'key' => 'group_custom_fields',
-    'title' => 'Custom Fields',
+    'key' => '${groupKey}',
+    'title' => '${escapePhpString(groupTitle)}',
     'fields' => array(
 ${fieldsCode}
     ),
@@ -350,7 +921,7 @@ ${fieldsCode}
             array(
                 'param' => 'post_type',
                 'operator' => '==',
-                'value' => 'post',
+                'value' => '${locationValue}',
             ),
         ),
     ),
@@ -369,17 +940,32 @@ ${fieldsCode}
       const codeContainer = document.getElementById('codeContainer');
       const emptyState = document.getElementById('emptyState');
       const copyBtn = document.getElementById('copyBtn');
-      const regenBtn = document.getElementById('regenBtn');
 
       output.value = code;
       codeContainer.style.display = 'block';
       emptyState.style.display = 'none';
       copyBtn.disabled = false;
-      regenBtn.disabled = false;
 
       const lineCount = code.split('\n').length;
       stats.textContent = `${fields.length} fields / ${lineCount} lines`;
     }
+
+    function escapePhpString(str) {
+      return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    }
+
+    // Settings change listeners
+    document.getElementById('groupTitle').addEventListener('input', () => {
+      if (currentFields.length > 0) {
+        generatePHPCode(currentFields);
+      }
+    });
+
+    document.getElementById('locationType').addEventListener('change', () => {
+      if (currentFields.length > 0) {
+        generatePHPCode(currentFields);
+      }
+    });
 
     window.onmessage = (event) => {
       const msg = event.data.pluginMessage;
@@ -389,12 +975,14 @@ ${fieldsCode}
         renderFieldsPreview(msg.fields);
         generatePHPCode(msg.fields);
         showMessage(`✓ ${msg.fields.length} fields generated successfully`, 'success');
+        switchTab('generator');
       }
 
       if (msg.type === 'error') {
         showMessage(msg.message, 'error');
+        switchTab('generator');
       }
     };
   </script>
 </body>
-</html>
+</html>Ï
