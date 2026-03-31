@@ -8,13 +8,12 @@ interface FieldInfo {
   name: string;
   label: string;
   key: string;
-  settings?: Record<string, any>;
 }
 
 // Show UI
 figma.showUI(__html__, { 
   width: 600, 
-  height: 600,
+  height: 550,
   themeColors: true 
 });
 
@@ -44,98 +43,130 @@ function handleGenerateCode() {
     return;
   }
 
-  // Extract layer names
   const layerNames = selection.map(node => node.name);
+  
+  const invalidLayers: string[] = [];
+  
+  layerNames.forEach(name => {
+    if (!isValidLayerName(name)) {
+      invalidLayers.push(name);
+    }
+  });
 
-  // Analyze and create field info
+  if (invalidLayers.length > 0) {
+    let errorMessage = '';
+    
+    if (invalidLayers.length === 1) {
+      const layer = invalidLayers[0];
+      
+      if (/^[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]+$/u.test(layer)) {
+        errorMessage = `Invalid layer name: "${layer}". Emoji-only names are not supported. Please add text or use a prefix like "img_".`;
+      }
+      else if (/^[^\w\s\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]+$/.test(layer)) {
+        errorMessage = `Invalid layer name: "${layer}". Symbol-only names are not supported. Please add alphanumeric characters or use a prefix.`;
+      }
+      else {
+        errorMessage = `Invalid layer name: "${layer}". Layer name cannot be empty.`;
+      }
+    } else {
+      errorMessage = `Invalid layer names found (${invalidLayers.length}): ${invalidLayers.map(n => `"${n}"`).join(', ')}. Please use alphanumeric characters or add prefixes.`;
+    }
+    
+    figma.ui.postMessage({
+      type: 'error',
+      message: errorMessage
+    });
+    return;
+  }
+
   const fields = layerNames.map((name, index) => 
     analyzeLayerName(name, index)
   );
 
-  // Send to UI
   figma.ui.postMessage({
     type: 'fields-generated',
     fields: fields
   });
 }
 
+function isValidLayerName(layerName: string): boolean {
+  const trimmed = layerName.trim();
+  
+  if (!trimmed) {
+    return false;
+  }
+  
+  const emojiOnlyPattern = /^[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]+$/u;
+  if (emojiOnlyPattern.test(trimmed)) {
+    return false;
+  }
+  
+  const symbolOnlyPattern = /^[^\w\s\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]+$/;
+  if (symbolOnlyPattern.test(trimmed)) {
+    return false;
+  }
+  
+  return true;
+}
+
 function analyzeLayerName(layerName: string, index: number): FieldInfo {
+  const trimmed = layerName.trim();
+  
+  if (/^\d+(\.\d+)?$/.test(trimmed)) {
+    const sanitizedName = toSafeFieldName(trimmed);
+    return {
+      type: 'number',
+      name: sanitizedName,
+      label: trimmed,
+      key: `field_${sanitizedName}_${index}`
+    };
+  }
+
   const patterns: Record<FieldType, RegExp> = {
-    image: /^(img|image|画像|写真)_(.+)/i,
-    textarea: /^(txt|text|本文|テキスト)_(.+)/i,
-    number: /^(num|number|数値)_(.+)/i,
-    email: /^(email|mail|メール)_(.+)/i,
-    url: /^(url|link|リンク|URL)_(.+)/i,
-    file: /^(file|ファイル)_(.+)/i,
-    select: /^(select|dropdown|選択)_(.+)/i,
-    true_false: /^(toggle|switch|bool|切替)_(.+)/i,
-    date_picker: /^(date|日付)_(.+)/i,
+    image: /^(img|image|画像|写真)_(.*)$/i,
+    textarea: /^(txt|text|textarea|本文|テキスト)_(.*)$/i,
+    number: /^(num|number|数値)_(.*)$/i,
+    email: /^(email|mail|メール)_(.*)$/i,
+    url: /^(url|link|リンク|URL)_(.*)$/i,
+    file: /^(file|ファイル)_(.*)$/i,
+    select: /^(select|dropdown|選択)_(.*)$/i,
+    true_false: /^(toggle|switch|bool|切替)_(.*)$/i,
+    date_picker: /^(date|日付)_(.*)$/i,
     text: /^(.+)$/
   };
 
-  // Try to match prefix patterns
   for (const [type, pattern] of Object.entries(patterns)) {
-    const match = layerName.match(pattern);
+    const match = trimmed.match(pattern);
     if (match && type !== 'text') {
+      const prefix = match[1];
       const fieldName = match[2];
-      const sanitizedName = toSafeFieldName(fieldName);
+      
+      const finalFieldName = fieldName.trim() ? fieldName : prefix;
+      const sanitizedName = toSafeFieldName(finalFieldName);
+      
       return {
         type: type as FieldType,
         name: sanitizedName,
-        label: layerName,
+        label: trimmed,
         key: `field_${sanitizedName}_${index}`
       };
     }
   }
 
-  // Default to text
-  const sanitizedName = toSafeFieldName(layerName);
-  const fieldType: FieldType = 'text';
-  
+  const sanitizedName = toSafeFieldName(trimmed);
   return {
     type: 'text',
     name: sanitizedName,
-    label: layerName,
-    key: `field_${sanitizedName}_${index}`,
-    settings: getFieldTypeSettings(fieldType)
+    label: trimmed,
+    key: `field_${sanitizedName}_${index}`
   };
 }
 
-function parseSelectChoices(layerName: string): Record<string, string> | null {
-  const match = layerName.match(/\[([^\]]+)\]/);
-  
-  if (match) {
-    const choicesStr = match[1];
-    const choicesList = choicesStr.split(',').map(s => s.trim());
-    
-    const choices: Record<string, string> = {};
-    choicesList.forEach(choice => {
-      const key = choice.toLowerCase().replace(/\s+/g, '_');
-      choices[key] = choice;
-    });
-    
-    return choices;
-  }
-  
-  return {
-    'option1': 'Option 1',
-    'option2': 'Option 2',
-    'option3': 'Option 3',
-  };
-}
-
-/**
- * Convert any string to a safe ACF field name
- * Rules:
- * - Only lowercase letters, numbers, underscores, and hyphens
- * - No spaces
- * - Convert Japanese/special characters to romanized equivalents or remove
- */
 function toSafeFieldName(str: string): string {
-  // Remove prefix if exists
-  str = str.replace(/^(img|image|txt|text|num|number|email|mail|url|link|file|select|dropdown|toggle|switch|bool|date|画像|写真|本文|テキスト|数値|メール|リンク|URL|ファイル|選択|切替|日付)_/i, '');
+  const withoutPrefix = str.replace(/^(img|image|txt|text|textarea|num|number|email|mail|url|link|file|select|dropdown|toggle|switch|bool|date|画像|写真|本文|テキスト|数値|メール|リンク|URL|ファイル|選択|切替|日付)_/i, '');
   
-  // Japanese character mappings (common conversions)
+  const workingStr = withoutPrefix.trim() ? withoutPrefix : str;
+  
   const japaneseMap: Record<string, string> = {
     'テスト': 'test',
     'タイトル': 'title',
@@ -157,15 +188,35 @@ function toSafeFieldName(str: string): string {
     '記事': 'article',
     '投稿': 'post',
     'ページ': 'page',
+    'img': 'image',
+    'txt': 'text',
+    'textarea': 'textarea',
+    'num': 'number',
+    'email': 'email',
+    'mail': 'email',
+    'url': 'url',
+    'file': 'file',
+    'select': 'select',
+    'dropdown': 'select',
+    'toggle': 'toggle',
+    'switch': 'switch',
+    'bool': 'boolean',
+    'date': 'date',
+    'メール': 'email',
+    '数値': 'number',
+    'ファイル': 'file',
+    '選択': 'select',
+    '切替': 'toggle',
+    '日付': 'date',
   };
 
-  // Replace known Japanese words with English
+  let result = workingStr;
+  
   for (const [japanese, english] of Object.entries(japaneseMap)) {
-    str = str.replace(new RegExp(japanese, 'g'), english);
+    result = result.replace(new RegExp(japanese, 'gi'), english);
   }
 
-  // Convert to ASCII-safe format
-  return str
+  result = result
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^\x00-\x7F]/g, '')
@@ -175,50 +226,9 @@ function toSafeFieldName(str: string): string {
     .replace(/^_+|_+$/g, '')
     .replace(/_+/g, '_')
     .replace(/^(\d)/, '_$1')
-    .toLowerCase() || 'field';
+    .toLowerCase();
+  
+  return result || 'field';
 }
 
-function getFieldTypeSettings(type: FieldType): Record<string, any> {
-  const settings: Record<string, any> = {};
-
-  switch (type) {
-    case 'select':
-      settings.choices = {
-        'option1': 'Option 1',
-        'option2': 'Option 2',
-        'option3': 'Option 3',
-      };
-      settings.default_value = false;
-      settings.return_format = 'value';
-      settings.multiple = 0;
-      settings.allow_null = 0;
-      settings.ui = 0;
-      settings.ajax = 0;
-      settings.placeholder = '';
-      break;
-
-    case 'true_false':
-      settings.default_value = 0;
-      settings.ui = 0;
-      break;
-
-    case 'image':
-      settings.return_format = 'array';
-      settings.library = 'all';
-      settings.preview_size = 'medium';
-      break;
-
-    case 'file':
-      settings.return_format = 'array';
-      settings.library = 'all';
-      break;
-
-    case 'date_picker':
-      settings.display_format = 'd/m/Y';
-      settings.return_format = 'd/m/Y';
-      settings.first_day = 1;
-      break;
-  }
-
-  return settings;
-}
+console.log('Custom Field Codegen plugin loaded');

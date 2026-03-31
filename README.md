@@ -28,7 +28,7 @@ Use prefixes to automatically detect field types:
 
 ### English Prefixes
 - `img_` or `image_` → image
-- `txt_` or `text_` → textarea
+- `txt_` or `text_` or `textarea_` → textarea
 - `num_` or `number_` → number
 - `email_` or `mail_` → email
 - `url_` or `link_` → url

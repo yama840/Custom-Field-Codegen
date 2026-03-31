@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <style>
@@ -17,16 +18,19 @@
       height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
     }
 
+    /* Tabs */
     .tabs {
       display: flex;
       border-bottom: 1px solid var(--figma-color-border);
       background: var(--figma-color-bg);
+      flex-shrink: 0;
     }
 
     .tab {
-      padding: 12px 20px;
+      padding: 10px 20px;
       font-size: 11px;
       font-weight: 500;
       color: var(--figma-color-text-secondary);
@@ -47,11 +51,12 @@
       border-bottom-color: var(--figma-color-bg-brand);
     }
 
+    /* Tab Content */
     .tab-content {
       display: none;
       flex: 1;
       overflow-y: auto;
-      padding: 16px;
+      padding: 12px;
     }
 
     .tab-content.active {
@@ -59,10 +64,12 @@
       flex-direction: column;
     }
 
+    /* Header */
     .header {
-      margin-bottom: 16px;
-      padding-bottom: 12px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
       border-bottom: 1px solid var(--figma-color-border);
+      flex-shrink: 0;
     }
 
     h1 {
@@ -76,22 +83,20 @@
       color: var(--figma-color-text-secondary);
     }
 
+    /* Settings Section */
     .settings-section {
-      margin-bottom: 16px;
-      padding: 12px;
+      margin-bottom: 12px;
+      padding: 10px;
       background: var(--figma-color-bg-secondary);
       border: 1px solid var(--figma-color-border);
       border-radius: 6px;
+      flex-shrink: 0;
     }
 
     .settings-row {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    .settings-row:last-child {
-      margin-bottom: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
     .settings-field {
@@ -124,125 +129,16 @@
       border-color: var(--figma-color-border-selected);
     }
 
-    .guide-section {
-      margin-bottom: 20px;
-    }
-
-    .guide-section h3 {
-      font-size: 11px;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    .guide-step {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-      align-items: flex-start;
-    }
-
-    .guide-step-number {
-      background: var(--figma-color-bg-brand);
-      color: white;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      font-weight: 600;
-      flex-shrink: 0;
-    }
-
-    .guide-step-content {
-      flex: 1;
-      font-size: 11px;
-      line-height: 1.5;
-    }
-
-    .guide-step-title {
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .guide-step-desc {
-      color: var(--figma-color-text-secondary);
-    }
-
-    .guide-examples {
-      background: var(--figma-color-bg-secondary);
-      border: 1px solid var(--figma-color-border);
-      border-radius: 6px;
-      padding: 12px;
-      margin-top: 12px;
-    }
-
-    .guide-examples-title {
-      font-weight: 600;
-      font-size: 10px;
-      margin-bottom: 8px;
-      color: var(--figma-color-text-secondary);
-    }
-
-    .guide-example-item {
-      font-family: 'Monaco', monospace;
-      font-size: 10px;
-      margin-bottom: 6px;
-      padding: 4px 0;
-    }
-
-    .guide-example-item:last-child {
-      margin-bottom: 0;
-    }
-
-    .prefix {
-      color: #0066cc;
-      font-weight: 600;
-    }
-
-    .arrow {
-      color: var(--figma-color-text-tertiary);
-      margin: 0 6px;
-    }
-
-    .type {
-      color: #00aa00;
-      font-weight: 600;
-    }
-
-    .prefix-table {
-      width: 100%;
-      font-size: 10px;
-      margin-top: 8px;
-    }
-
-    .prefix-table th {
-      text-align: left;
-      padding: 6px 8px;
-      background: var(--figma-color-bg-secondary);
-      border-bottom: 1px solid var(--figma-color-border);
-      font-weight: 600;
-    }
-
-    .prefix-table td {
-      padding: 6px 8px;
-      border-bottom: 1px solid var(--figma-color-border);
-      font-family: 'Monaco', monospace;
-    }
-
-    .prefix-table tr:last-child td {
-      border-bottom: none;
-    }
-
+    /* Controls */
     .controls {
       display: flex;
       gap: 8px;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
+      flex-shrink: 0;
     }
 
     button {
-      padding: 8px 12px;
+      padding: 7px 12px;
       font-size: 11px;
       font-weight: 500;
       border: 1px solid var(--figma-color-border);
@@ -272,12 +168,14 @@
       cursor: not-allowed;
     }
 
+    /* Message */
     .message {
-      padding: 12px;
+      padding: 10px;
       border-radius: 6px;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       font-size: 11px;
       animation: slideIn 0.3s ease;
+      flex-shrink: 0;
     }
 
     @keyframes slideIn {
@@ -285,6 +183,7 @@
         opacity: 0;
         transform: translateY(-10px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -301,25 +200,48 @@
       color: #060;
     }
 
+    /* Fields Preview */
     .fields-preview {
-      margin-bottom: 16px;
-      max-height: 200px;
+      margin-bottom: 12px;
+      max-height: 150px;
       overflow-y: auto;
       border: 1px solid var(--figma-color-border);
       border-radius: 6px;
       background: var(--figma-color-bg);
+      flex-shrink: 0;
     }
 
     .field-item {
       display: grid;
-      grid-template-columns: 24px 1fr 1fr 120px;
+      grid-template-columns: 20px 1fr 1fr 110px 24px;
       gap: 8px;
-      padding: 8px;
+      padding: 6px 8px;
       border-bottom: 1px solid var(--figma-color-border);
       align-items: center;
       font-size: 11px;
       cursor: move;
       transition: background 0.2s;
+    }
+
+    .delete-btn {
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      border: none;
+      background: none;
+      color: var(--figma-color-text-tertiary);
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+
+    .delete-btn:hover {
+      background: #fee;
+      color: #c00;
     }
 
     .field-item:hover {
@@ -337,47 +259,73 @@
     .drag-handle {
       cursor: grab;
       color: var(--figma-color-text-tertiary);
-      font-size: 14px;
+      font-size: 12px;
       user-select: none;
+      text-align: center;
     }
 
     .drag-handle:active {
       cursor: grabbing;
     }
 
+    .field-item {
+      display: grid;
+      grid-template-columns: 20px minmax(0, 1fr) minmax(0, 1fr) 110px 24px;
+      gap: 8px;
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--figma-color-border);
+      align-items: center;
+      font-size: 11px;
+      cursor: move;
+      transition: background 0.2s;
+    }
+
     .field-item .field-name {
       font-family: 'Monaco', monospace;
       font-size: 10px;
       color: var(--figma-color-text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .field-item .field-label {
       font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .field-item select {
-      padding: 4px 8px;
-      border: 1px solid var(--figma-color-border);
-      border-radius: 4px;
-      background: var(--figma-color-bg);
-      color: var(--figma-color-text);
-      font-size: 11px;
-      width: 100%;
+      padding: 4px 6px;
+      font-size: 10px;
+    }
+
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      flex-shrink: 0;
+    }
+
+    .code-header button {
+      padding: 6px 12px;
     }
 
     .code-container {
       position: relative;
-      margin-bottom: 12px;
       flex: 1;
       display: flex;
       flex-direction: column;
+      min-height: 0;
     }
 
     textarea {
       width: 100%;
       flex: 1;
-      min-height: 300px;
-      padding: 12px;
+      min-height: 200px;
+      padding: 10px;
       font-family: 'Monaco', 'Menlo', monospace;
       font-size: 10px;
       line-height: 1.5;
@@ -385,7 +333,7 @@
       border-radius: 6px;
       background: var(--figma-color-bg);
       color: var(--figma-color-text);
-      resize: vertical;
+      resize: none;
     }
 
     textarea:focus {
@@ -396,31 +344,149 @@
     .stats {
       font-size: 10px;
       color: var(--figma-color-text-secondary);
-      margin-bottom: 12px;
     }
 
+    /* Empty State */
     .empty-state {
       text-align: center;
-      padding: 60px 20px;
+      padding: 40px 20px;
       color: var(--figma-color-text-secondary);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
     .empty-state svg {
-      width: 48px;
-      height: 48px;
-      margin-bottom: 12px;
+      width: 40px;
+      height: 40px;
+      margin-bottom: 10px;
       opacity: 0.3;
       stroke: currentColor;
     }
 
+    .empty-state p {
+      font-size: 11px;
+    }
+
+    /* Version */
     .version {
-      font-size: 10px;
+      font-size: 9px;
       color: var(--figma-color-text-tertiary);
       text-align: center;
-      padding: 12px 0;
+      padding: 8px 0;
+      flex-shrink: 0;
+    }
+
+    /* Guide Section */
+    .guide-section {
+      margin-bottom: 16px;
+    }
+
+    .guide-section h3 {
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .guide-step {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+      align-items: flex-start;
+    }
+
+    .guide-step-number {
+      background: var(--figma-color-bg-brand);
+      color: white;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .guide-step-content {
+      flex: 1;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .guide-step-title {
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .guide-step-desc {
+      color: var(--figma-color-text-secondary);
+      font-size: 10px;
+    }
+
+    .guide-examples {
+      background: var(--figma-color-bg-secondary);
+      border: 1px solid var(--figma-color-border);
+      border-radius: 6px;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    .guide-example-item {
+      font-family: 'Monaco', monospace;
+      font-size: 10px;
+      margin-bottom: 5px;
+      padding: 3px 0;
+    }
+
+    .guide-example-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .prefix {
+      color: #0066cc;
+      font-weight: 600;
+    }
+
+    .arrow {
+      color: var(--figma-color-text-tertiary);
+      margin: 0 5px;
+    }
+
+    .type {
+      color: #00aa00;
+      font-weight: 600;
+    }
+
+    .prefix-table {
+      width: 100%;
+      font-size: 10px;
+      margin-top: 8px;
+    }
+
+    .prefix-table th {
+      text-align: left;
+      padding: 5px 6px;
+      background: var(--figma-color-bg-secondary);
+      border-bottom: 1px solid var(--figma-color-border);
+      font-weight: 600;
+    }
+
+    .prefix-table td {
+      padding: 5px 6px;
+      border-bottom: 1px solid var(--figma-color-border);
+      font-family: 'Monaco', monospace;
+    }
+
+    .prefix-table tr:last-child td {
+      border-bottom: none;
     }
   </style>
 </head>
+
 <body>
   <div class="tabs">
     <button class="tab active" onclick="switchTab('generator')">Generate</button>
@@ -440,8 +506,6 @@
           <label class="settings-label">Field Group Name</label>
           <input type="text" id="groupTitle" value="Custom Fields" placeholder="Enter group name">
         </div>
-      </div>
-      <div class="settings-row">
         <div class="settings-field">
           <label class="settings-label">Show on</label>
           <select id="locationType">
@@ -455,7 +519,6 @@
 
     <div class="controls">
       <button class="primary" onclick="generateCode()">Generate Code</button>
-      <button id="copyBtn" onclick="copyCode()" disabled>Copy</button>
     </div>
 
     <div id="message"></div>
@@ -471,15 +534,20 @@
     </div>
 
     <div id="codeContainer" style="display: none;">
+      <div class="code-header">
+        <button id="copyBtn" onclick="copyCode()">Copy Code</button>
+        <div class="stats" id="stats"></div>
+      </div>
       <div class="code-container">
         <textarea id="output" readonly></textarea>
       </div>
-      <div class="stats" id="stats"></div>
     </div>
 
     <div class="empty-state" id="emptyState">
       <svg viewBox="0 0 24 24" fill="none">
-        <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path
+          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
       <p>Select layers and click "Generate Code"</p>
     </div>
@@ -491,7 +559,6 @@
   <div class="tab-content" id="guideTab">
     <div class="guide-section">
       <h3>📘 How to Use</h3>
-      
       <div class="guide-step">
         <div class="guide-step-number">1</div>
         <div class="guide-step-content">
@@ -509,7 +576,6 @@
           <div class="guide-step-title">Select Layers</div>
           <div class="guide-step-desc">
             Click layers while holding <strong>Shift</strong> to select multiple layers.
-            Or click and drag to select a group of layers.
           </div>
         </div>
       </div>
@@ -519,7 +585,7 @@
         <div class="guide-step-content">
           <div class="guide-step-title">Configure Settings</div>
           <div class="guide-step-desc">
-            Set the field group name and choose where it should appear (Post, Page, or All).
+            Set the field group name and choose where it should appear.
           </div>
         </div>
       </div>
@@ -527,21 +593,10 @@
       <div class="guide-step">
         <div class="guide-step-number">4</div>
         <div class="guide-step-content">
-          <div class="guide-step-title">Generate Code</div>
+          <div class="guide-step-title">Generate & Copy</div>
           <div class="guide-step-desc">
-            Switch to the "Generate" tab and click "Generate Code" button.
-            Review and adjust field types if needed. Drag fields to reorder them.
-          </div>
-        </div>
-      </div>
-
-      <div class="guide-step">
-        <div class="guide-step-number">5</div>
-        <div class="guide-step-content">
-          <div class="guide-step-title">Copy & Use</div>
-          <div class="guide-step-desc">
-            Click "Copy" button and paste the code into your WordPress theme's
-            <code>functions.php</code> file.
+            Click "Generate Code", review fields, then click "Copy Code".
+            Paste into your WordPress theme's <code>functions.php</code>.
           </div>
         </div>
       </div>
@@ -549,13 +604,15 @@
 
     <div class="guide-section">
       <h3>🏷️ Prefix Examples</h3>
-      
       <div class="guide-examples">
         <div class="guide-example-item">
           <span class="prefix">img_</span>hero <span class="arrow">→</span> <span class="type">image</span>
         </div>
         <div class="guide-example-item">
           <span class="prefix">txt_</span>description <span class="arrow">→</span> <span class="type">textarea</span>
+        </div>
+        <div class="guide-example-item">
+          <span class="prefix">textarea_</span>bio <span class="arrow">→</span> <span class="type">textarea</span>
         </div>
         <div class="guide-example-item">
           <span class="prefix">url_</span>website <span class="arrow">→</span> <span class="type">url</span>
@@ -567,14 +624,13 @@
           <span class="prefix">date_</span>published <span class="arrow">→</span> <span class="type">date_picker</span>
         </div>
         <div class="guide-example-item">
-          <span class="prefix">画像_</span>メイン <span class="arrow">→</span> <span class="type">image</span> (Japanese)
+          <span class="prefix">画像_</span>メイン <span class="arrow">→</span> <span class="type">image</span>
         </div>
       </div>
     </div>
 
     <div class="guide-section">
       <h3>📋 All Supported Prefixes</h3>
-      
       <table class="prefix-table">
         <thead>
           <tr>
@@ -591,7 +647,7 @@
           </tr>
           <tr>
             <td><strong>textarea</strong></td>
-            <td>txt_, text_</td>
+            <td>txt_, text_, textarea_</td>
             <td>本文_, テキスト_</td>
           </tr>
           <tr>
@@ -621,7 +677,7 @@
           </tr>
           <tr>
             <td><strong>true_false</strong></td>
-            <td>toggle_, switch_, bool_</td>
+            <td>toggle_, switch_</td>
             <td>切替_</td>
           </tr>
           <tr>
@@ -631,10 +687,34 @@
           </tr>
           <tr>
             <td><strong>text</strong></td>
-            <td colspan="2"><em>No prefix (default)</em></td>
+            <td colspan="2"><em>No prefix</em></td>
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="guide-section">
+      <h3>⚠️ Layer Name Requirements</h3>
+      <div class="guide-step-desc" style="line-height: 1.6;">
+        Layer names must contain at least one alphanumeric character or Japanese character.<br><br>
+        
+        <strong style="color: #00aa00;">✓ Valid:</strong><br>
+        <code>title</code>, <code>123</code>, <code>img_hero</code>, <code>画像_</code>, <code>テスト</code><br><br>
+        
+        <strong style="color: #c00;">✗ Invalid:</strong><br>
+        <code>@@@@@</code> (symbols only)<br>
+        <code>😎</code> (emoji only)<br>
+        <code>###</code> (special characters only)<br><br>
+        
+        <em>Tip: If you want to use symbols or emoji, add a prefix or alphanumeric characters.</em>
+      </div>
+    </div>
+    <div class="guide-section">
+      <h3>⚙️ Requirements</h3>
+      <div class="guide-step-desc">
+        <strong>WordPress:</strong> 5.0 or higher<br>
+        <strong>Plugin:</strong> Advanced Custom Fields (Free or Pro)<br>
+        <strong>PHP:</strong> 7.4 or higher
+      </div>
     </div>
 
     <div class="version">v1.0.0</div>
@@ -681,14 +761,14 @@
     function copyCode() {
       const output = document.getElementById('output');
       const code = output.value;
-      
+
       output.select();
       output.setSelectionRange(0, 99999);
-      
+
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(code).then(() => {
-          parent.postMessage({ 
-            pluginMessage: { type: 'notify', message: 'Code copied to clipboard!' } 
+          parent.postMessage({
+            pluginMessage: { type: 'notify', message: 'Code copied to clipboard!' }
           }, '*');
           showMessage('Code copied to clipboard!', 'success');
         }).catch(err => {
@@ -702,11 +782,11 @@
     function fallbackCopy() {
       const output = document.getElementById('output');
       output.select();
-      
+
       try {
         document.execCommand('copy');
-        parent.postMessage({ 
-          pluginMessage: { type: 'notify', message: 'Code copied!' } 
+        parent.postMessage({
+          pluginMessage: { type: 'notify', message: 'Code copied!' }
         }, '*');
         showMessage('Code copied!', 'success');
       } catch (err) {
@@ -743,7 +823,7 @@
 
     function handleDrop(e, dropIndex) {
       e.preventDefault();
-      
+
       if (draggedIndex === null || draggedIndex === dropIndex) return;
 
       const draggedField = currentFields[draggedIndex];
@@ -752,6 +832,21 @@
 
       renderFieldsPreview(currentFields);
       generatePHPCode(currentFields);
+    }
+
+    function deleteField(index) {
+      currentFields.splice(index, 1);
+      
+      if (currentFields.length === 0) {
+        document.getElementById('fieldsPreview').style.display = 'none';
+        document.getElementById('codeContainer').style.display = 'none';
+        document.getElementById('emptyState').style.display = 'flex';
+        showMessage('All fields deleted. Select layers to generate new fields.', 'success');
+      } else {
+        renderFieldsPreview(currentFields);
+        generatePHPCode(currentFields);
+        showMessage(`Field deleted (${currentFields.length} remaining)`, 'success');
+      }
     }
 
     function renderFieldsPreview(fields) {
@@ -769,18 +864,19 @@
         
         return `
           <div class="field-item" 
-               draggable="true" 
-               data-index="${index}"
-               ondragstart="handleDragStart(event, ${index})"
-               ondragend="handleDragEnd(event)"
-               ondragover="handleDragOver(event)"
-               ondrop="handleDrop(event, ${index})">
+              draggable="true" 
+              data-index="${index}"
+              ondragstart="handleDragStart(event, ${index})"
+              ondragend="handleDragEnd(event)"
+              ondragover="handleDragOver(event)"
+              ondrop="handleDrop(event, ${index})">
             <div class="drag-handle">☰</div>
             <div class="field-label">${escapeHtml(field.label)}</div>
             <div class="field-name">${escapeHtml(field.name)}</div>
             <select data-field-index="${index}" class="field-type-select">
               ${options}
             </select>
+            <button class="delete-btn" onclick="deleteField(${index})" title="Delete field">🗑</button>
           </div>
         `;
       }).join('');
@@ -812,118 +908,119 @@
         .toLowerCase();
     }
 
-    function generatePHPCode(fields) {
-      const timestamp = new Date().toISOString().split('T')[0];
-      const groupTitle = document.getElementById('groupTitle').value || 'Custom Fields';
-      const locationType = document.getElementById('locationType').value;
-      const groupKey = 'group_' + toSnakeCase(groupTitle);
-      
-      const fieldsCode = fields.map(field => {
-        let fieldCode = `        array(
-            'key' => '${field.key}',
-            'label' => '${escapePhpString(field.label)}',
-            'name' => '${field.name}',
-            'type' => '${field.type}',
-            'instructions' => '',
-            'required' => 0,
-            'conditional_logic' => 0,
-            'wrapper' => array(
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ),`;
+function generatePHPCode(fields) {
+  const timestamp = new Date().toISOString().split('T')[0];
+  const groupTitle = document.getElementById('groupTitle').value || 'Custom Fields';
+  const locationType = document.getElementById('locationType').value;
+  const groupKey = 'group_' + toSnakeCase(groupTitle);
 
-        switch (field.type) {
-          case 'select':
-            fieldCode += `
-            'choices' => array(
-                'option1' => 'Option 1',
-                'option2' => 'Option 2',
-                'option3' => 'Option 3',
-            ),
-            'default_value' => false,
-            'return_format' => 'value',
-            'multiple' => 0,
-            'allow_null' => 0,
-            'ui' => 0,
-            'ajax' => 0,
-            'placeholder' => '',`;
-            break;
+  const fieldsCode = fields.map(field => {
+let fieldCode = 
+`array(
+  'key' => '${field.key}',
+  'label' => '${escapePhpString(field.label)}',
+  'name' => '${field.name}',
+  'type' => '${field.type}',
+  'instructions' => '',
+  'required' => 0,
+  'conditional_logic' => 0,
+  'wrapper' => array(
+    'width' => '',
+    'class' => '',
+    'id' => '',
+  ),`;
 
-          case 'image':
-            fieldCode += `
-            'return_format' => 'array',
-            'library' => 'all',
-            'preview_size' => 'medium',`;
-            break;
+switch (field.type) {
+  case 'select':
+    fieldCode += `
+    'choices' => array(
+      'option1' => 'Option 1',
+      'option2' => 'Option 2',
+      'option3' => 'Option 3',
+    ),
+    'default_value' => false,
+    'return_format' => 'value',
+    'multiple' => 0,
+    'allow_null' => 0,
+    'ui' => 0,
+    'ajax' => 0,
+    'placeholder' => '',`;
+    break;
 
-          case 'file':
-            fieldCode += `
-            'return_format' => 'array',
-            'library' => 'all',`;
-            break;
+  case 'image':
+    fieldCode += `
+    'return_format' => 'array',
+    'library' => 'all',
+    'preview_size' => 'medium',`;
+    break;
 
-          case 'true_false':
-            fieldCode += `
-            'default_value' => 0,
-            'ui' => 0,`;
-            break;
+  case 'file':
+    fieldCode += `
+    'return_format' => 'array',
+    'library' => 'all',`;
+    break;
 
-          case 'date_picker':
-            fieldCode += `
-            'display_format' => 'd/m/Y',
-            'return_format' => 'd/m/Y',
-            'first_day' => 1,`;
-            break;
+  case 'true_false':
+    fieldCode += `
+    'default_value' => 0,
+    'ui' => 0,`;
+    break;
 
-          case 'textarea':
-            fieldCode += `
-            'rows' => 4,
-            'new_lines' => 'br',`;
-            break;
+  case 'date_picker':
+    fieldCode += `
+    'display_format' => 'd/m/Y',
+    'return_format' => 'd/m/Y',
+    'first_day' => 1,`;
+    break;
 
-          case 'number':
-            fieldCode += `
-            'min' => '',
-            'max' => '',
-            'step' => '',`;
-            break;
-        }
+  case 'textarea':
+    fieldCode += `
+    'rows' => 4,
+    'new_lines' => 'br',`;
+    break;
 
-        fieldCode += `
-        )`;
+  case 'number':
+    fieldCode += `
+    'min' => '',
+    'max' => '',
+    'step' => '',`;
+    break;
+}
 
-        return fieldCode;
-      }).join(',\n');
+fieldCode += `
+)`;
 
-      let locationValue;
-      if (locationType === 'all') {
-        locationValue = 'all';
-      } else {
-        locationValue = locationType;
-      }
+  return fieldCode;
+}).join(',\n');
 
-      const code = `<?php
-/**
- * ACF Field Group: ${groupTitle}
- * Generated by Custom Field Codegen for Figma
- * Date: ${timestamp}
- */
+let locationValue = locationType === 'all' ? 'all' : locationType;
+
+const code =
+`/*
+* ACF Field Group: ${groupTitle}
+* Generated by Custom Field Codegen for Figma
+* Date: ${timestamp}
+*/
+
+add_action('acf/include_fields', function() {
+  if (!function_exists('acf_add_local_field_group')) {
+    return;
+  }
 
 acf_add_local_field_group(array(
-    'key' => '${groupKey}',
-    'title' => '${escapePhpString(groupTitle)}',
-    'fields' => array(
-${fieldsCode}
+  'key' => '${groupKey}',
+  'title' => '${escapePhpString(groupTitle)}',
+  'fields' => array(
+    ${fieldsCode}
     ),
     'location' => array(
+      array(
         array(
-            array(
-                'param' => 'post_type',
-                'operator' => '==',
-                'value' => '${locationValue}',
-            ),
+          'param' => 'post_type',
+          'operator' => '==',
+          'value' => '${locationValue}',
         ),
+      ),
     ),
     'menu_order' => 0,
     'position' => 'normal',
@@ -933,18 +1030,17 @@ ${fieldsCode}
     'hide_on_screen' => '',
     'active' => true,
     'description' => '',
-));`;
+  ));
+});`;
 
       const output = document.getElementById('output');
       const stats = document.getElementById('stats');
       const codeContainer = document.getElementById('codeContainer');
       const emptyState = document.getElementById('emptyState');
-      const copyBtn = document.getElementById('copyBtn');
 
       output.value = code;
       codeContainer.style.display = 'block';
       emptyState.style.display = 'none';
-      copyBtn.disabled = false;
 
       const lineCount = code.split('\n').length;
       stats.textContent = `${fields.length} fields / ${lineCount} lines`;
@@ -967,6 +1063,7 @@ ${fieldsCode}
       }
     });
 
+    // Message handler
     window.onmessage = (event) => {
       const msg = event.data.pluginMessage;
 
@@ -985,4 +1082,5 @@ ${fieldsCode}
     };
   </script>
 </body>
-</html>Ï
+
+</html>
