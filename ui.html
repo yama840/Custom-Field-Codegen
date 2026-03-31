@@ -894,9 +894,15 @@
     }
 
     function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
+      if (!text) return '';
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      };
+      return text.replace(/[&<>"']/g, m => map[m]);
     }
 
     function toSnakeCase(str) {
@@ -1047,10 +1053,15 @@ acf_add_local_field_group(array(
     }
 
     function escapePhpString(str) {
-      return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+      if (!str) return '';
+      return str
+        .replace(/\\/g, '\\\\')
+        .replace(/'/g, "\\'")
+        .replace(/\n/g, '\\n')
+        .replace(/\r/g, '\\r')
+        .replace(/\0/g, '\\0');
     }
 
-    // Settings change listeners
     document.getElementById('groupTitle').addEventListener('input', () => {
       if (currentFields.length > 0) {
         generatePHPCode(currentFields);
@@ -1063,21 +1074,23 @@ acf_add_local_field_group(array(
       }
     });
 
-    // Message handler
     window.onmessage = (event) => {
-      const msg = event.data.pluginMessage;
-
-      if (msg.type === 'fields-generated') {
-        currentFields = msg.fields;
-        renderFieldsPreview(msg.fields);
-        generatePHPCode(msg.fields);
-        showMessage(`✓ ${msg.fields.length} fields generated successfully`, 'success');
-        switchTab('generator');
-      }
-
-      if (msg.type === 'error') {
-        showMessage(msg.message, 'error');
-        switchTab('generator');
+      try {
+        const msg = event.data.pluginMessage;
+        if (!msg || !msg.type) {
+          console.error('Invalid message received:', event.data);
+          return;
+        }
+        if (msg.type === 'fields-generated') {
+          currentFields = msg.fields;
+          renderFieldsPreview(msg.fields);
+          generatePHPCode(msg.fields);
+          showMessage(`✓ ${msg.fields.length} fields generated successfully`, 'success');
+          switchTab('generator');
+        }
+      } catch (error) {
+        console.error('Error handling message:', error);
+        showMessage('An error occurred. Please try again.', 'error');
       }
     };
   </script>

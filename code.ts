@@ -10,14 +10,12 @@ interface FieldInfo {
   key: string;
 }
 
-// Show UI
 figma.showUI(__html__, { 
   width: 600, 
   height: 550,
   themeColors: true 
 });
 
-// Message handler
 figma.ui.onmessage = (msg) => {
   if (msg.type === 'generate-code') {
     handleGenerateCode();
@@ -43,7 +41,17 @@ function handleGenerateCode() {
     return;
   }
 
-  const layerNames = selection.map(node => node.name);
+  const longLayers = selection.filter(node => (node.name || '').length > 100);
+  
+  if (longLayers.length > 0) {
+    const names = longLayers.map(n => `"${n.name.substring(0, 30)}..."`).join(', ');
+    figma.notify(`⚠️ ${longLayers.length} layer(s) have long names and will be shortened: ${names}`, { timeout: 5000 });
+  }
+
+  const layerNames = selection.map(node => {
+    const name = node.name || '';
+    return name.length > 200 ? name.substring(0, 200) : name;
+  });
   
   const invalidLayers: string[] = [];
   
@@ -111,13 +119,14 @@ function isValidLayerName(layerName: string): boolean {
 
 function analyzeLayerName(layerName: string, index: number): FieldInfo {
   const trimmed = layerName.trim();
+  const label = trimmed.length > 64 ? trimmed.substring(0, 64) : trimmed;
   
   if (/^\d+(\.\d+)?$/.test(trimmed)) {
     const sanitizedName = toSafeFieldName(trimmed);
     return {
       type: 'number',
       name: sanitizedName,
-      label: trimmed,
+      label: label,
       key: `field_${sanitizedName}_${index}`
     };
   }
@@ -147,7 +156,7 @@ function analyzeLayerName(layerName: string, index: number): FieldInfo {
       return {
         type: type as FieldType,
         name: sanitizedName,
-        label: trimmed,
+        label: label,
         key: `field_${sanitizedName}_${index}`
       };
     }
@@ -157,7 +166,7 @@ function analyzeLayerName(layerName: string, index: number): FieldInfo {
   return {
     type: 'text',
     name: sanitizedName,
-    label: trimmed,
+    label: label,
     key: `field_${sanitizedName}_${index}`
   };
 }
@@ -227,8 +236,11 @@ function toSafeFieldName(str: string): string {
     .replace(/_+/g, '_')
     .replace(/^(\d)/, '_$1')
     .toLowerCase();
+
+  if (result.length > 64) {
+    result = result.substring(0, 64);
+    result = result.replace(/_+$/, '');
+  }
   
   return result || 'field';
 }
-
-console.log('Custom Field Codegen plugin loaded');
