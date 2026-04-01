@@ -30,7 +30,7 @@ Name your layers, select them, and get ready-to-use PHP code. It's that simple.
 **For Development:**
 ```bash
 git clone https://github.com/yama840/Custom-Field-Codegen
-cd Custom-Field-Codegen
+cd Custom Field Codegen
 npm install
 npm run build
 ```
