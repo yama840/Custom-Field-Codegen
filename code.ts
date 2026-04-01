@@ -11,8 +11,8 @@ interface FieldInfo {
 }
 
 figma.showUI(__html__, { 
-  width: 600, 
-  height: 550,
+  width: 500, 
+  height: 500,
   themeColors: true 
 });
 

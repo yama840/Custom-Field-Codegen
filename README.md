@@ -2,7 +2,7 @@
 
 A Figma plugin that helps you generate ACF (Advanced Custom Fields) code from your layer names.
 
-![Custom Field Codegen](cover.png)
+![Custom Field Codegen](icon.png)
 
 ## Why This Plugin?
 
@@ -29,8 +29,8 @@ Name your layers, select them, and get ready-to-use PHP code. It's that simple.
 
 **For Development:**
 ```bash
-git clone https://github.com/yourusername/custom-field-codegen.git
-cd custom-field-codegen
+git clone https://github.com/yama840/Custom-Field-Codegen
+cd Custom-Field-Codegen
 npm install
 npm run build
 ```
@@ -205,8 +205,8 @@ Built for WordPress developers who use Figma. If it saves you time, consider giv
 
 ## Support
 
-- **Issues & bugs**: [GitHub Issues](https://github.com/yourusername/custom-field-codegen/issues)
-- **Questions**: [GitHub Discussions](https://github.com/yourusername/custom-field-codegen/discussions)
+- **Issues & bugs**: [GitHub Issues](https://github.com/yama840/Custom-Field-Codegen/issues)
+- **Questions**: [GitHub Discussions](https://github.com/yama840/Custom-Field-Codegen/discussions)
 
 ---
 
